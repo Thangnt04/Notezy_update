@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/backButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/link"
+        android:layout_marginTop="42dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Notes"
+        android:textSize="16sp"
+        android:lineHeight="22.4sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="42dp"
+        android:padding="16dp"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:text="What do you want to notes?"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/idea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/primary_base"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_idea"
+                android:padding="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Interesting Idea"
+                    android:paddingTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#EFE9F7"
+                    android:paddingTop="8dp"
+                    android:textSize="12sp"
+                    android:text="Use free text area, feel free to write it all"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/buying"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#60D889"
+        app:layout_constraintTop_toBottomOf="@id/idea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_buying"
+                android:padding="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buying Something"
+                    android:paddingTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#1F7F40"
+                    android:paddingTop="8dp"
+                    android:textSize="12sp"
+                    android:text="Use checklist, so you won’t miss anything"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#F8C715"
+        app:layout_constraintTop_toBottomOf="@id/buying"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_goal"
+                android:padding="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Goals"
+                    android:paddingTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#725A03"
+                    android:paddingTop="8dp"
+                    android:textSize="12sp"
+                    android:text="Near/future goals, notes and keep focus "/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/guidance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#CE3A54"
+        app:layout_constraintTop_toBottomOf="@id/goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_guidance"
+                android:padding="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guidance"
+                    android:paddingTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#F7DEE3"
+                    android:paddingTop="8dp"
+                    android:textSize="12sp"
+                    android:text="Create guidance for routine activities"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#DEDC52"
+        app:layout_constraintTop_toBottomOf="@id/guidance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_task"
+                android:padding="16dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Routine Tasks"
+                    android:paddingTop="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#565510"
+                    android:paddingTop="8dp"
+                    android:textSize="12sp"
+                    android:text="Checklist with sub-checklist"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

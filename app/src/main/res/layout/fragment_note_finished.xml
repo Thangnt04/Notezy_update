@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.noteapp.ui.elements.fragments.NoteListFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="20dp"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/bottomTabBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_note" />
+
+    <!-- Tab Bar Container -->
+    <LinearLayout
+        android:id="@+id/bottomTabBar"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Home Tab -->
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iconHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_home"
+                android:contentDescription="Home"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+
+        <!-- Finished Tab -->
+        <LinearLayout
+            android:id="@+id/tabFinished"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iconFinished"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_finished_colored"
+                android:contentDescription="Finished"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+
+        <!-- Spacer for FAB -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- Search Tab -->
+        <LinearLayout
+            android:id="@+id/tabSearch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iconSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_search"
+                android:contentDescription="Search"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+
+        <!-- Settings Tab - Gắn với lề phải -->
+        <LinearLayout
+            android:id="@+id/tabSettings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iconSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_setting"
+                android:contentDescription="Settings"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iconAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/button_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="52dp"/>
+
+    <TextView
+        android:id="@+id/textViewNotingToShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_note_to_show"
+        android:textSize="@dimen/_20sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/notesRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/notesRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/notesRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/notesRecyclerView" />
+
+    <ProgressBar
+        android:id="@+id/progressBarNotesLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

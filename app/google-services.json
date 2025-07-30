@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "438300665056",
+    "firebase_url": "https://note-app-1st-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "note-app-1st",
+    "storage_bucket": "note-app-1st.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:438300665056:android:c86fc4ef0094a955d71c85",
+        "android_client_info": {
+          "package_name": "com.example.noteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "438300665056-m85hprkjtvj3sf0vdld050vtp4062b2a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.noteapp",
+            "certificate_hash": "74b5aa2911e0a091773e799a7ca3a334167fb8d4"
+          }
+        },
+        {
+          "client_id": "438300665056-6g4kc3d3mv2bfod6lm3ln9tllmi81gar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB92JxNBKXOBSuGEFPV7O35ldRkIl9Wxkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "438300665056-6g4kc3d3mv2bfod6lm3ln9tllmi81gar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

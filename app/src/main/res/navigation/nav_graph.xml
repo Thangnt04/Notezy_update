@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/noteListFragment">
+
+    <fragment
+        android:id="@+id/noteListFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.NoteListFragment"
+        android:label="NoteListFragment">
+        <action
+            android:id="@+id/action_noteListFragment_to_newNoteFragment"
+            app:destination="@id/newNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_noteListFragment_to_noteViewFragment"
+            app:destination="@id/noteViewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.models.Note" />
+        </action>
+        <action
+            android:id="@+id/action_noteListFragment_to_finishedNotesFragment"
+            app:destination="@id/finishedNotesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_noteListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_noteListFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.NewNoteFragment"
+        android:label="NewNoteFragment">
+        <action
+            android:id="@+id/action_newNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_newNoteFragment_to_addIdeaNoteFragment"
+            app:destination="@id/addIdeaNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_newNoteFragment_to_addBuyingNoteFragment"
+            app:destination="@id/addBuyingNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_newNoteFragment_to_addGoalNoteFragment"
+            app:destination="@id/addGoalNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_newNoteFragment_to_addGuidanceNoteFragment"
+            app:destination="@id/addGuidanceNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_newNoteFragment_to_addTaskNoteFragment"
+            app:destination="@id/addTaskNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addIdeaNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.AddIdeaNoteFragment"
+        android:label="AddIdeaNoteFragment">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addIdeaNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addBuyingNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.AddBuyingNoteFragment"
+        android:label="AddBuyingNoteFragment">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addBuyingNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addGoalNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.AddGoalNoteFragment"
+        android:label="AddGoalNoteFragment">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addGoalNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addGuidanceNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.AddGuidanceNoteFragment"
+        android:label="AddGuidanceNoteFragment">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addGuidanceNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTaskNoteFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.AddTaskNoteFragment"
+        android:label="AddTaskNoteFragment">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addTaskNoteFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteViewFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.NoteViewFragment"
+        android:label="NoteViewFragment">
+        <argument
+            android:name="note"
+            app:argType="com.example.noteapp.data.models.Note" />
+        <action
+            android:id="@+id/action_noteViewFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_noteViewFragment_to_noteEditFragment"
+            app:destination="@id/noteEditFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.models.Note" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteEditFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.NoteEditFragment"
+        android:label="NoteEditFragment">
+        <argument
+            android:name="note"
+            app:argType="com.example.noteapp.data.models.Note" />
+        <action
+            android:id="@+id/action_noteEditFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/finishedNotesFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.FinishedNotesFragment"
+        android:label="FinishedNotesFragment">
+        <action
+            android:id="@+id/action_finishedNotesFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_finishedNotesFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_finishedNotesFragment_to_newNoteFragment"
+            app:destination="@id/newNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_finishedNotesFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_finishedNotesFragment_to_noteViewFragment"
+            app:destination="@id/noteViewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.models.Note" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_finishedNotesFragment"
+            app:destination="@id/finishedNotesFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_newNoteFragment"
+            app:destination="@id/newNoteFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.noteapp.ui.elements.fragments.SearchFragment"
+        android:label="SearchFragment">
+        <action
+            android:id="@+id/action_searchFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/noteListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_searchFragment_to_noteViewFragment"
+            app:destination="@id/noteViewFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
+            <argument
+                android:name="note"
+                app:argType="com.example.noteapp.data.models.Note" />
+        </action>
+    </fragment>
+
+</navigation>
+

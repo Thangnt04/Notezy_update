@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="182dp"
+    android:layout_height="252dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="8dp"
+    android:elevation="8dp"
+    android:id="@+id/cardViewNote">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/custom_edit1"
+        android:backgroundTint="#F7DEE3">
+
+        <TextView
+            android:id="@+id/textViewNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/title"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever" />
+
+        <TextView
+
+            android:id="@+id/textViewNoteDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:maxLines="10"
+            android:ellipsize="end"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="Note"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/textViewDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Created in"
+                android:textSize="10dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                />
+
+            <TextView
+                android:id="@+id/textViewNoteDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="xx/xx/xxxx"
+                android:textSize="10dp"
+                android:singleLine="true"
+                />
+
+            <TextView
+                android:id="@+id/textViewNoteTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="xx:xx"
+                android:textSize="10dp"
+                android:singleLine="true"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

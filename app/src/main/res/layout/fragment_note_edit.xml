@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewEditTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:paddingTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNoteTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Enter title"
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewEditTitle" />
+
+    <TextView
+        android:id="@+id/textViewEditDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Description"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextNoteTitle" />
+
+    <EditText
+        android:id="@+id/editTextNoteDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="top|start"
+        android:hint="Enter description"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        app:layout_constraintBottom_toTopOf="@id/textViewReminderLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewEditDescription" />
+
+    <!-- Phần thời gian nhắc nhở -->
+    <TextView
+        android:id="@+id/textViewReminderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Remind in:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/buttonSetReminder"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewReminder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Chưa đặt"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        app:layout_constraintBottom_toBottomOf="@id/textViewReminderLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewReminderLabel"
+        app:layout_constraintTop_toTopOf="@id/textViewReminderLabel" />
+
+    <!-- Container cho các nút -->
+    <Button
+        android:id="@+id/buttonSetReminder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Set Reminder"
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/imageButtonBackToNoteView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="Cancel"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
