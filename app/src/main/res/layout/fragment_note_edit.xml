@@ -1,135 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#F5F5F5">
 
-    <TextView
-        android:id="@+id/textViewEditTitle"
-        android:layout_width="0dp"
+    <!-- Header Back Button -->
+    <ImageView
+        android:id="@+id/imageButtonBackToNoteList"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:paddingTop="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/link"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextNoteTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Enter title"
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewEditTitle" />
-
     <TextView
-        android:id="@+id/textViewEditDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Description"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextNoteTitle" />
-
-    <EditText
-        android:id="@+id/editTextNoteDescription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="top|start"
-        android:hint="Enter description"
-        android:inputType="textMultiLine"
-        android:minLines="5"
-        app:layout_constraintBottom_toTopOf="@id/textViewReminderLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewEditDescription" />
-
-    <!-- Phần thời gian nhắc nhở -->
-    <TextView
-        android:id="@+id/textViewReminderLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Remind in:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/buttonSetReminder"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewReminder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Chưa đặt"
-        android:textSize="16sp"
-        android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="@id/textViewReminderLabel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textViewReminderLabel"
-        app:layout_constraintTop_toTopOf="@id/textViewReminderLabel" />
+        app:layout_constraintBottom_toTopOf="@id/scrollView"
+        android:text="Edit"
+        android:textSize="32sp"
+        android:layout_marginTop="48dp"/>
 
-    <!-- Container cho các nút -->
-    <Button
-        android:id="@+id/buttonSetReminder"
+
+
+    <!-- ScrollView for main content -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Set Reminder"
-        app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBarrier"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonBackToNoteList">
 
-    <LinearLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Title EditText -->
+            <EditText
+                android:id="@+id/editTextNoteTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Note title"
+                android:inputType="textMultiLine"
+                android:minHeight="48dp"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Content EditText -->
+            <EditText
+                android:id="@+id/editTextNoteDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Start typing your note..."
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="4dp"
+                android:minLines="10"
+                android:padding="8dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteTitle" />
+
+            <!-- Reminder Text -->
+            <TextView
+                android:id="@+id/textViewReminderLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Remind in:"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription" />
+
+            <TextView
+                android:id="@+id/textViewReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Chưa đặt"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewReminderLabel"
+                app:layout_constraintStart_toEndOf="@+id/textViewReminderLabel"
+                app:layout_constraintTop_toTopOf="@+id/textViewReminderLabel" />
+
+            <!-- Bottom spacer -->
+            <View
+                android:id="@+id/bottomSpacer"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReminderLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Bottom Bar Barrier -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="textViewDateLabel,textViewNoteDate,moreButton"/>
+
+    <!-- Bottom Bar Background -->
+    <View
+        android:id="@+id/bottomBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
 
-        <Button
-            android:id="@+id/imageButtonBackToNoteView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:text="Cancel"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
+    <!-- Last edited text -->
+    <TextView
+        android:id="@+id/textViewDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Created:"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Save" />
+    <TextView
+        android:id="@+id/textViewNoteDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewDateLabel"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier"
+        tools:text="xx/xx/xxxx" />
 
-    </LinearLayout>
 
+
+    <!-- More options button -->
+    <ImageButton
+        android:id="@+id/moreButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@color/primary_base"
+        android:contentDescription="More options"
+        android:src="@drawable/dots_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
+
+    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:indeterminateTint="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 

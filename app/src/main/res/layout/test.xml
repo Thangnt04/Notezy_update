@@ -4,140 +4,181 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="com.example.noteapp.ui.elements.fragments.NoteListFragment">
+    android:background="#F5F5F5">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categoryRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomTabBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingTop="18dp"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false"/>
-
-
-    <!-- Tab Bar Container -->
-    <LinearLayout
-        android:id="@+id/bottomTabBar"
-        android:layout_width="match_parent"
-        android:layout_height="84dp"
-        android:background="@android:color/white"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Home Tab -->
-        <LinearLayout
-            android:id="@+id/tabHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:background="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:id="@+id/iconHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/button_home_colored"
-                android:contentDescription="Home"
-                android:padding="16dp"/>
-
-        </LinearLayout>
-
-        <!-- Finished Tab -->
-        <LinearLayout
-            android:id="@+id/tabFinished"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:background="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:id="@+id/iconFinished"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/button_finished"
-                android:contentDescription="Finished"
-                android:padding="16dp"/>
-
-        </LinearLayout>
-
-        <!-- Spacer for FAB -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <!-- Search Tab -->
-        <LinearLayout
-            android:id="@+id/tabSearch"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:background="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:id="@+id/iconSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/button_search"
-                android:contentDescription="Search"
-                android:padding="16dp"/>
-
-        </LinearLayout>
-
-        <!-- Settings Tab - Gắn với lề phải -->
-        <LinearLayout
-            android:id="@+id/tabSettings"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_horizontal"
-            android:background="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:id="@+id/iconSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/button_setting"
-                android:contentDescription="Settings"
-                android:padding="16dp"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
+    <!-- Header Back Button -->
     <ImageView
-        android:id="@+id/iconAdd"
+        android:id="@+id/imageButtonBackToNoteList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/button_add"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/link"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ScrollView for main content -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBarrier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonBackToNoteList">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Title EditText -->
+            <EditText
+                android:id="@+id/editTextNoteTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Note title"
+                android:inputType="textMultiLine"
+                android:minHeight="48dp"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Content EditText -->
+            <EditText
+                android:id="@+id/editTextNoteDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Start typing your note..."
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="4dp"
+                android:minLines="10"
+                android:padding="8dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteTitle" />
+
+            <!-- Reminder Text -->
+            <TextView
+                android:id="@+id/textViewReminderLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Remind in:"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription" />
+
+            <TextView
+                android:id="@+id/textViewReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Chưa đặt"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewReminderLabel"
+                app:layout_constraintStart_toEndOf="@+id/textViewReminderLabel"
+                app:layout_constraintTop_toTopOf="@+id/textViewReminderLabel" />
+
+            <!-- Bottom spacer -->
+            <View
+                android:id="@+id/bottomSpacer"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReminderLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Bottom Bar Barrier -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="textViewDateLabel,textViewNoteDate,buttonSave,moreButton" />
+
+    <!-- Bottom Bar Background -->
+    <View
+        android:id="@+id/bottomBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="52dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
+
+    <!-- Last edited text -->
+    <TextView
+        android:id="@+id/textViewDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Created:"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
+
+    <TextView
+        android:id="@+id/textViewNoteDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewDateLabel"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier"
+        tools:text="xx/xx/xxxx" />
 
 
 
+    <!-- More options button -->
+    <ImageButton
+        android:id="@+id/moreButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@color/primary_base"
+        android:contentDescription="More options"
+        android:src="@drawable/dots_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
 
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

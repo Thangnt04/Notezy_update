@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,6 +24,7 @@ import com.example.noteapp.data.models.Note
 import com.example.noteapp.databinding.FragmentAddNoteBinding
 import com.example.noteapp.ui.view_models.NoteViewModel
 import com.example.noteapp.utils.response.ResultStatus
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -33,89 +35,112 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.UUID
 
-class AddTaskNoteFragment : Fragment() {
-    private lateinit var binding: FragmentAddNoteBinding
+class AddTaskNoteFragment : Fragment(){
+    private var _binding: FragmentAddNoteBinding? = null
+    private val binding get() = _binding!!
     private val noteViewModel: NoteViewModel by activityViewModels()
     private val args: AddTaskNoteFragmentArgs by navArgs()
-    private var reminderTime: Long? = null
+    private var reminderTime: Long? =null
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var bottomSheetView: View
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAddNoteBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentAddNoteBinding.inflate(inflater, container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Xóa các trường nhập liệu
+        //Xóa nội dung mặc định và hiển thị ngày tạo
         binding.editTextNoteTitle.text?.clear()
         binding.editTextNoteDescription.text?.clear()
-        binding.textViewReminder.text = "Nhắc nhở: Chưa đặt"
+        binding.textViewReminder.text = "Chưa đặt"
+        binding.textViewNoteDate.text = getCurrentDate()
+
+        //Khởi tạo BottomSheetDialog
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetView = layoutInflater.inflate(R.layout.bottomsheet_layout_2,null)
+        bottomSheetDialog.setContentView(bottomSheetView)
 
         binding.apply {
-            // Quay lại danh sách ghi chú
-            buttonBackToNoteList.setOnClickListener {
+            imageButtonBackToNoteList.setOnClickListener{
                 navigateToNoteListFragment()
             }
-
-            // Đặt thời gian nhắc nhở
-            buttonSetReminder.setOnClickListener {
-                val calendar = Calendar.getInstance(TimeZone.getTimeZone(getString(R.string.vietnam_time_zone)))
-                val currentTime = calendar.timeInMillis
-                DatePickerDialog(requireContext(), { _, year, month, day ->
-                    TimePickerDialog(requireContext(), { _, hour, minute ->
-                        calendar.set(year, month, day, hour, minute, 0)
-                        reminderTime = calendar.timeInMillis
-                        if (reminderTime!! <= currentTime) {
-                            showSnackBar("Thời gian nhắc nhở phải sau thời gian hiện tại!")
-                            reminderTime = null
-                            textViewReminder.text = "Nhắc nhở: Chưa đặt"
-                        } else {
-                            val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-                            val reminderDate = Date(reminderTime!!)
-                            textViewReminder.text = "Nhắc nhở: ${sdf.format(reminderDate)}"
-                            Log.d("AddTaskNoteFragment", "Reminder time set to: $reminderTime ($reminderDate)")
-                        }
-                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
-            }
-
-            // Lưu ghi chú
-            buttonSave.setOnClickListener {
-                applySaveNote()
+            moreButton.setOnClickListener{
+                bottomSheetDialog.show()
             }
         }
 
-        // Quan sát kết quả lưu ghi chú
+        //Xử lý event BottomSheetMenu
+        bottomSheetView.findViewById<View>(R.id.set_reminder).setOnClickListener {
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone(getString(R.string.vietnam_time_zone)))
+            val currentTime = calendar.timeInMillis
+            DatePickerDialog(requireContext(), { _, year, month, day ->
+                TimePickerDialog(requireContext(), { _, hour, minute ->
+                    calendar.set(year, month, day, hour, minute, 0)
+                    reminderTime = calendar.timeInMillis
+                    if (reminderTime!! <= currentTime) {
+                        showSnackBar("Thời gian nhắc nhở phải sau thời gian hiện tại!")
+                        reminderTime = null
+                        binding.textViewReminder.text = "Chưa đặt"
+                        bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = "Not set"
+                    } else {
+                        val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+                        val reminderDate = Date(reminderTime!!)
+                        binding.textViewReminder.text = sdf.format(reminderDate)
+                        bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = sdf.format(reminderDate)
+                        Log.d("AddTaskNoteFragment", "Reminder time set to: $reminderTime ($reminderDate)")
+                    }
+                    bottomSheetDialog.dismiss()
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
+        // Xử lý nút Save trong BottomSheet
+        bottomSheetView.findViewById<View>(R.id.buttonSave).setOnClickListener {
+            applySaveNote()
+            bottomSheetDialog.dismiss()
+        }
+
+        // Xử lý nút đóng BottomSheet
+        bottomSheetView.findViewById<View>(R.id.close_button).setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
         noteViewModel.noteAddResultStatus.observe(viewLifecycleOwner) { resultStatus ->
             when (resultStatus) {
                 is ResultStatus.Loading -> {
                     binding.progressBar.isVisible = true
-                    binding.buttonSave.isEnabled = false
-                    binding.buttonBackToNoteList.isEnabled = false
+                    binding.imageButtonBackToNoteList.isEnabled = false
+                    binding.moreButton.isEnabled = false
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = false
                     Log.d("AddTaskNoteFragment", "Adding note...")
                 }
                 is ResultStatus.Success -> {
                     binding.progressBar.isVisible = false
-                    binding.buttonSave.isEnabled = true
-                    binding.buttonBackToNoteList.isEnabled = true
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
                     showSnackBar(getString(R.string.note_added_successfully))
                     noteViewModel.listNotes() // Cập nhật danh sách ghi chú
-                    noteViewModel.resetNoteStatus() // Đặt lại trạng thái
-                    navigateToNoteListFragment() // Điều hướng về NoteListFragment
+                    navigateToNoteListFragment()
                 }
                 is ResultStatus.Error -> {
                     binding.progressBar.isVisible = false
-                    binding.buttonSave.isEnabled = true
-                    binding.buttonBackToNoteList.isEnabled = true
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
                     showSnackBar(resultStatus.message ?: "Lỗi khi thêm ghi chú")
                 }
                 null -> {
                     Log.d("AddTaskNoteFragment", "noteAddResultStatus is null")
-                    binding.buttonSave.isEnabled = true
-                    binding.buttonBackToNoteList.isEnabled = true
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
                 }
             }
         }
@@ -124,7 +149,11 @@ class AddTaskNoteFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (!alarmManager.canScheduleExactAlarms()) {
-                Snackbar.make(requireView(), "Vui lòng cấp quyền đặt lịch báo thức trong Cài đặt > Ứng dụng > [Tên ứng dụng] > Pin > Cho phép đặt báo thức chính xác.", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(
+                    requireView(),
+                    "Vui lòng cấp quyền đặt lịch báo thức trong Cài đặt > Ứng dụng > [Tên ứng dụng] > Pin > Cho phép đặt báo thức chính xác.",
+                    Snackbar.LENGTH_LONG
+                ).show()
                 val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 startActivity(intent)
             }
@@ -141,6 +170,7 @@ class AddTaskNoteFragment : Fragment() {
     private fun navigateToNoteListFragment() {
         val navAction = AddTaskNoteFragmentDirections.actionAddTaskNoteFragmentToNoteListFragment()
         findNavController().navigate(navAction)
+        noteViewModel.resetNoteStatus()
     }
 
     private fun applySaveNote() {
@@ -163,7 +193,7 @@ class AddTaskNoteFragment : Fragment() {
                     reminderTime = reminderTime,
                     UpdatedNote = false,
                     Finished = false,
-                    category = args.category // Đặt category từ tham số
+                    category = args.category
                 )
                 noteViewModel.addNote(requireContext(), note)
             } else {
@@ -189,5 +219,10 @@ class AddTaskNoteFragment : Fragment() {
         val currentDateObject = Date()
         val formatter = SimpleDateFormat("dd-MM-yyyy")
         return formatter.format(currentDateObject)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

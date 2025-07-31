@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -17,148 +19,158 @@ import com.example.noteapp.data.models.Note
 import com.example.noteapp.databinding.FragmentNoteEditBinding
 import com.example.noteapp.ui.view_models.NoteViewModel
 import com.example.noteapp.utils.response.ResultStatus
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteEditFragment : Fragment() {
-    private val args: NoteEditFragmentArgs by navArgs()
-    private lateinit var note: Note
-    private lateinit var binding: FragmentNoteEditBinding
+class NoteEditFragment : Fragment(){
+    private var _binding: FragmentNoteEditBinding? = null
+    private val binding get() = _binding!!
     private val noteViewModel: NoteViewModel by activityViewModels()
+    private val args: NoteEditFragmentArgs by navArgs()
+    private var reminderTime: Long? = null
+    private lateinit var note: Note
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var bottomSheetView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         note = args.note
+        reminderTime = note.reminderTime
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentNoteEditBinding.inflate(layoutInflater, container, false)
+    ): View? {
+        _binding = FragmentNoteEditBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindNoteData()
+
+
+        //Khởi tạo BottomShetDialog
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetView = layoutInflater.inflate(R.layout.bottomsheet_layout_2,null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        bindNoteData() //lấy dữ liệu của note hiển thị lên màn hình
 
         binding.apply {
-            buttonSave.setOnClickListener {
-                val updatedTitle = editTextNoteTitle.text.toString()
-                val updatedDescription = editTextNoteDescription.text.toString()
-
-                if (updatedTitle.isEmpty()) {
-                    showSnackBar(getString(R.string.title_cant_be_empty))
-                    return@setOnClickListener
-                }
-
-                freezeUiActions()
-
-                note = note.copy(
-                    title = updatedTitle,
-                    description = updatedDescription,
-                    dateOfUpdate = getCurrentDate(),
-                    timeOfUpdate = getCurrentTime(),
-                    UpdatedNote = true
-                )
-
-                noteViewModel.updateNote(requireContext(), note)
+            imageButtonBackToNoteList.setOnClickListener{
+                navigateToNoteListFragment()
             }
-
-            imageButtonBackToNoteView.setOnClickListener {
-                navigateToNoteListFragment() // Quay về NoteListFragment thay vì NoteViewFragment
+            moreButton.setOnClickListener(){
+                bottomSheetDialog.show()
             }
         }
 
-        // Quan sát kết quả cập nhật
+        //Xử lý sự kiện cho BottomSheetMenu
+        bottomSheetView.findViewById<View>(R.id.set_reminder).setOnClickListener {
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone(getString(R.string.vietnam_time_zone)))
+            val currentTime = calendar.timeInMillis
+            DatePickerDialog(requireContext(), { _, year, month, day ->
+                TimePickerDialog(requireContext(), { _, hour, minute ->
+                    calendar.set(year, month, day, hour, minute, 0)
+                    reminderTime = calendar.timeInMillis
+                    if(reminderTime!! <= currentTime){
+                        showSnackBar("Thời gian nhắc nhở phải sau thời gian hiện tại!")
+                        reminderTime = null
+                        binding.textViewReminder.text = "Chưa đặt"
+                        bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = "Not Set"
+                    }else{
+                        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+                        val reminderDate = Date(reminderTime!!)
+                        binding.textViewReminder.text = simpleDateFormat.format(reminderDate)
+                        bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = simpleDateFormat.format(reminderDate)
+                        Log.d("NoteEditFragment", "Reminder time set to: $reminderTime ($reminderDate)")
+                    }
+                    bottomSheetDialog.dismiss()
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),true).show()
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+        //Xử lý nút Save trong BottomSheet
+        bottomSheetView.findViewById<View>(R.id.buttonSave).setOnClickListener {
+            applySaveNote()
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetView.findViewById<View>(R.id.close_button).setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+        //quan sát LiveData
         noteViewModel.noteUpdateResultStatus.observe(viewLifecycleOwner) { resultStatus ->
-            when (resultStatus) {
-                is ResultStatus.Loading -> {
-                    Log.d("NoteEditFragment", "Updating note...")
+            when (resultStatus){
+                is ResultStatus.Loading ->{
+                    binding.progressBar.isVisible = true
+                    binding.imageButtonBackToNoteList.isEnabled = false
+                    binding.moreButton.isEnabled = false
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = false
+                    Log.d("NoteEditFragment", "Editing note...")
                 }
-                is ResultStatus.Success -> {
-                    unfreezeUiActions()
+                is ResultStatus.Success ->{
+                    binding.progressBar.isVisible = false
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
                     showSnackBar(getString(R.string.note_success_update_message))
+                    noteViewModel.listNotes()
                     navigateToNoteListFragment()
-                    noteViewModel.resetNoteStatus()
                 }
-                is ResultStatus.Error -> {
-                    unfreezeUiActions()
-                    showSnackBar(resultStatus.message ?: "Lỗi khi cập nhật ghi chú")
+                is ResultStatus.Error ->{
+                    binding.progressBar.isVisible = false
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
+                    showSnackBar(resultStatus.message ?: "Lỗi khi chỉnh sửa ghi chú")
                 }
-                null -> {
-                    Log.d("NoteEditFragment", "Received null status, ignoring")
-                    // Không làm gì khi nhận null, vì đây là trạng thái sau reset
+                null ->{
+                    Log.d("NoteEditFragment", "NoteEditResultStatus is null")
+                    binding.imageButtonBackToNoteList.isEnabled = true
+                    binding.moreButton.isEnabled = true
+                    bottomSheetView.findViewById<View>(R.id.buttonSave).isEnabled = true
                 }
             }
         }
     }
 
-    private fun freezeUiActions() {
+    private fun applySaveNote() {
         binding.apply {
-            imageButtonBackToNoteView.isClickable = false
-            buttonSave.isClickable = false
-        }
-    }
+            val updatedTitle = editTextNoteTitle.text.toString()
+            val updatedDescription = editTextNoteDescription.text.toString()
 
-    private fun unfreezeUiActions() {
-        binding.apply {
-            imageButtonBackToNoteView.isClickable = true
-            buttonSave.isClickable = true
-        }
-    }
+            val currentTime = getCurrentTime()
+            val currentDate = getCurrentDate()
+            val currentUserUid = Firebase.auth.currentUser?.uid ?: return@apply
 
-    private fun navigateToNoteListFragment() {
-        val navAction = NoteEditFragmentDirections.actionNoteEditFragmentToNoteListFragment()
-        findNavController().navigate(navAction)
-    }
-
-    private fun showSnackBar(message: String) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun bindNoteData() {
-        binding.apply {
-            editTextNoteTitle.setText(note.title)
-            editTextNoteDescription.setText(note.description)
-
-            if (note.reminderTime != null) {
-                val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-                val reminderDate = Date(note.reminderTime!!)
-                textViewReminder.text = sdf.format(reminderDate)
-            } else {
-                textViewReminder.text = "Chưa đặt"
+            if (updatedTitle.isEmpty()){
+                showSnackBar(getString(R.string.title_cant_be_empty))
+                return@apply
             }
+
+            //Tạo bản ghi cập nhật mới
+            val updatedNote = note.copy(
+                title = updatedTitle,
+                description = updatedDescription,
+                dateOfUpdate = currentDate,
+                timeOfUpdate = currentTime,
+                reminderTime = reminderTime,
+                UpdatedNote = true,
+                addByUid = currentUserUid
+            )
+            noteViewModel.updateNote(requireContext(),updatedNote)
         }
     }
 
-    private fun showDateTimePicker() {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = note.reminderTime ?: System.currentTimeMillis()
-        }
-        val currentTime = System.currentTimeMillis()
 
-        DatePickerDialog(requireContext(), { _, year, month, day ->
-            TimePickerDialog(requireContext(), { _, hour, minute ->
-                calendar.set(year, month, day, hour, minute, 0)
-                val selectedTime = calendar.timeInMillis
-                if (selectedTime <= currentTime) {
-                    showSnackBar("Thời gian nhắc nhở phải sau thời gian hiện tại!")
-                    note.reminderTime = null
-                    bindNoteData()
-                } else {
-                    note.reminderTime = selectedTime
-                    val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-                    binding.textViewReminder.text = sdf.format(Date(selectedTime))
-                }
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
-    }
 
     private fun getCurrentTime(): String {
-        val tz = TimeZone.getTimeZone(getString(R.string.vietnam_time_zone))
+        val tz = TimeZone.getTimeZone((getString(R.string.vietnam_time_zone)))
         val c = Calendar.getInstance(tz)
         val hours = String.format("%02d", c.get(Calendar.HOUR_OF_DAY))
         val minutes = String.format("%02d", c.get(Calendar.MINUTE))
@@ -170,5 +182,39 @@ class NoteEditFragment : Fragment() {
         val currentDateObject = Date()
         val formatter = SimpleDateFormat("dd-MM-yyyy")
         return formatter.format(currentDateObject)
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(requireView(),message,Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToNoteListFragment() {
+        val navAction = NoteEditFragmentDirections.actionNoteEditFragmentToNoteListFragment()
+        findNavController().navigate(navAction)
+        noteViewModel.resetNoteStatus()
+        Log.d("NoteEditFragment", "Navigated to NoteListFragment")
+    }
+
+
+    private fun bindNoteData() {
+        binding.apply {
+            editTextNoteTitle.setText(note.title)
+            editTextNoteDescription.setText(note.description)
+            textViewNoteDate.text = note.dateOfUpdate ?: note.dateOfCreation // Hiển thị ngày cập nhật hoặc tạo
+
+            if (note.reminderTime != null) {
+                val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+                val reminderDate = Date(note.reminderTime!!)
+                textViewReminder.text = sdf.format(reminderDate)
+                bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = sdf.format(reminderDate)
+            } else {
+                textViewReminder.text = "Chưa đặt"
+                bottomSheetView.findViewById<TextView>(R.id.reminder_status).text = "Not set"
+            }
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

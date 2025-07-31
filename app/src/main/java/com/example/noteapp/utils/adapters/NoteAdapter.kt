@@ -135,8 +135,8 @@ class NoteAdapter(
                 }
 
                 if (note.Finished) {
-                    textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.green_700))
-                    textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.green_500))
+                    textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
+                    textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.dark_grey))
                 } else {
                     textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
                     textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.dark_grey))

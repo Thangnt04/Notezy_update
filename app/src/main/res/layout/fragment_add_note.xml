@@ -1,123 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context="com.example.noteapp.ui.elements.fragments.AddNoteFragment">
+    android:background="#F5F5F5">
 
-    <!-- Nút quay lại -->
-    <ImageButton
-        android:id="@+id/buttonBackToNoteList"
+    <!-- Header Back Button -->
+    <ImageView
+        android:id="@+id/imageButtonBackToNoteList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/image_view"
         android:src="@drawable/link"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- TextInputLayout cho tiêu đề -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextFieldNoteTitle"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/title"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBackToNoteList">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextNoteTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textLocale="vi_VN"
-            android:inputType="text"
-            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- TextInputLayout cho mô tả -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextFieldNoteDescription"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <!-- ScrollView for main content -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:hint="@string/description"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSetReminder"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldNoteTitle">
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonBackToNoteList">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextNoteDescription"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textLocale="vi_VN"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
-    <!-- Nút Đặt nhắc nhở -->
-    <Button
-        android:id="@+id/buttonSetReminder"
-        android:layout_width="0dp"
+            <!-- Title EditText -->
+            <EditText
+                android:id="@+id/editTextNoteTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Note title"
+                android:inputType="textMultiLine"
+                android:minHeight="48dp"
+                android:minLines="1"
+                android:padding="8dp"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Content EditText -->
+            <EditText
+                android:id="@+id/editTextNoteDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Start typing your note..."
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="4dp"
+                android:minLines="10"
+                android:padding="8dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteTitle" />
+
+            <!-- Reminder Text -->
+            <TextView
+                android:id="@+id/textViewReminderLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Remind in:"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNoteDescription" />
+
+            <TextView
+                android:id="@+id/textViewReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Chưa đặt"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewReminderLabel"
+                app:layout_constraintStart_toEndOf="@+id/textViewReminderLabel"
+                app:layout_constraintTop_toTopOf="@+id/textViewReminderLabel" />
+
+            <!-- Bottom spacer -->
+            <View
+                android:id="@+id/bottomSpacer"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReminderLabel" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Bottom Bar Barrier -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Đặt nhắc nhở"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewReminder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="textViewDateLabel,textViewNoteDate,moreButton"/>
 
-    <!-- TextView hiển thị thời gian nhắc nhở -->
-    <TextView
-        android:id="@+id/textViewReminder"
+    <!-- Bottom Bar Background -->
+    <View
+        android:id="@+id/bottomBackground"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nhắc nhở: Chưa đặt"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Nút Lưu (Add) -->
-    <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="@string/add"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:icon="@drawable/ic_baseline_add_24"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="TextContrastCheck" />
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <!-- Last edited text -->
+    <TextView
+        android:id="@+id/textViewDateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/orange"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Created:"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
+
+    <TextView
+        android:id="@+id/textViewNoteDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewDateLabel"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier"
+        tools:text="xx/xx/xxxx" />
+
+
+
+    <!-- More options button -->
+    <ImageButton
+        android:id="@+id/moreButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@color/primary_base"
+        android:contentDescription="More options"
+        android:src="@drawable/dots_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottomBarrier" />
+
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,4 +182,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 

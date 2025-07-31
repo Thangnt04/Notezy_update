@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         getByName("debug") {
-            applicationIdSuffix = null // Vô hiệu hóa hậu tố .debug
+            applicationIdSuffix = null
         }
 
         getByName("release") {
