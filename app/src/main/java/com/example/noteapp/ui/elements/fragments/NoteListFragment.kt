@@ -80,7 +80,7 @@ class NoteListFragment : Fragment() {
                 is ResultStatus.Loading -> {
                     binding.progressBarNotesLoading.isVisible = true
                     binding.categoryRecyclerView.isVisible = false
-                    binding.textViewNotingToShow.isVisible = false
+                    binding.emptyNote.isVisible = false
                     Log.d("NoteListFragment", "Loading notes...")
                 }
                 is ResultStatus.Success -> {
@@ -100,9 +100,9 @@ class NoteListFragment : Fragment() {
                     categoryAdapter.submitList(categoryMap)
                     binding.apply {
                         categoryRecyclerView.isVisible = categoryMap.isNotEmpty()
-                        textViewNotingToShow.isVisible = categoryMap.isEmpty()
+                        emptyNote.isVisible = categoryMap.isEmpty()
                         if (categoryMap.isEmpty()) {
-                            textViewNotingToShow.text = "Không có ghi chú"
+                            emptyNote.isVisible = true
                         }
                     }
                 }
@@ -112,8 +112,7 @@ class NoteListFragment : Fragment() {
                     Toast.makeText(requireContext(), resultStatus.message ?: "Lỗi tải ghi chú", Toast.LENGTH_LONG).show()
                     binding.apply {
                         categoryRecyclerView.isVisible = false
-                        textViewNotingToShow.isVisible = true
-                        textViewNotingToShow.text = "Lỗi tải ghi chú: ${resultStatus.message}"
+                        emptyNote.isVisible = true
                     }
                 }
             }

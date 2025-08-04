@@ -2,7 +2,6 @@
 //
 //import android.text.format.DateFormat
 //import android.view.LayoutInflater
-//import android.view.View
 //import android.view.ViewGroup
 //import androidx.navigation.NavController
 //import androidx.navigation.findNavController
@@ -14,7 +13,7 @@
 //import com.example.noteapp.databinding.ItemNoteBinding
 //
 //class NoteAdapter(
-//    private val onNoteClick: (Note, NavController) -> Unit // Callback để xử lý click
+//    private val onNoteClick: (Note, NavController) -> Unit
 //) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 //
 //    private val diffCallback = object : DiffUtil.ItemCallback<Note>() {
@@ -38,7 +37,7 @@
 //        val note = differ.currentList[position]
 //        holder.bind(note)
 //        holder.binding.cardViewNote.setOnClickListener {
-//            onNoteClick(note, holder.itemView.findNavController()) // Gọi callback với note và NavController
+//            onNoteClick(note, holder.itemView.findNavController())
 //        }
 //    }
 //
@@ -60,10 +59,9 @@
 //                    textViewDateLabel.text = itemView.context.getString(R.string.created_in)
 //                }
 //
-//                // Hiển thị trạng thái hoàn thành
 //                if (note.Finished) {
-//                    textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.green_700))
-//                    textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.green_500))
+//                    textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
+//                    textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.dark_grey))
 //                } else {
 //                    textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
 //                    textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.dark_grey))
@@ -73,11 +71,15 @@
 //    }
 //}
 
+
 package com.example.noteapp.utils.adapters
 
-import android.text.format.DateFormat
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -124,15 +126,15 @@ class NoteAdapter(
                 textViewNoteTitle.text = note.title
                 textViewNoteDescription.text = note.description
 
-                if (note.UpdatedNote) {
-                    textViewNoteDate.text = note.dateOfUpdate
-                    textViewNoteTime.text = note.timeOfUpdate
-                    textViewDateLabel.text = itemView.context.getString(R.string.updated_in)
-                } else {
-                    textViewNoteDate.text = note.dateOfCreation
-                    textViewNoteTime.text = note.timeOfCreation
-                    textViewDateLabel.text = itemView.context.getString(R.string.created_in)
-                }
+//                if (note.UpdatedNote) {
+//                    textViewNoteDate.text = note.dateOfUpdate
+//                    textViewNoteTime.text = note.timeOfUpdate
+//                    textViewDateLabel.text = itemView.context.getString(R.string.updated_in)
+//                } else {
+//                    textViewNoteDate.text = note.dateOfCreation
+//                    textViewNoteTime.text = note.timeOfCreation
+//                    textViewDateLabel.text = itemView.context.getString(R.string.created_in)
+//                }
 
                 if (note.Finished) {
                     textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
@@ -140,6 +142,20 @@ class NoteAdapter(
                 } else {
                     textViewNoteTitle.setTextColor(itemView.context.getColor(R.color.black))
                     textViewNoteDescription.setTextColor(itemView.context.getColor(R.color.dark_grey))
+                }
+
+                if (note.imageBase64 != null) {
+                    try {
+                        val decodedBytes = Base64.decode(note.imageBase64, Base64.DEFAULT)
+                        val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                        imageViewNote.setImageBitmap(bitmap)
+                        imageViewNote.isVisible = true
+                    } catch (e: Exception) {
+                        android.util.Log.e("NoteAdapter", "Failed to decode image: ${e.message}", e)
+                        imageViewNote.isVisible = false
+                    }
+                } else {
+                    imageViewNote.isVisible = false
                 }
             }
         }

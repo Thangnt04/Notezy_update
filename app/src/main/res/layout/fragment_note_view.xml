@@ -65,13 +65,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageViewNote"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/notelist_img"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/custom_edit4"
+                android:maxHeight="260dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNoteTitle"
+                tools:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="16:12"/>
+
             <!-- Content EditText -->
             <TextView
                 android:id="@+id/textViewNoteDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:background="@android:color/transparent"
                 android:gravity="top"
@@ -85,7 +104,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewNoteTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewNote" />
 
             <!-- Reminder Text -->
             <TextView

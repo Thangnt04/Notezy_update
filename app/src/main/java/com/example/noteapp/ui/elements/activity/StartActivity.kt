@@ -148,6 +148,7 @@ class StartActivity : AppCompatActivity() {
         val nextButton: androidx.cardview.widget.CardView = findViewById(R.id.next_button)
         val previousButton: androidx.cardview.widget.CardView = findViewById(R.id.previous_button)
         val proceedButton: androidx.cardview.widget.CardView = findViewById(R.id.proceed_button)
+        val previousButtonFake: androidx.cardview.widget.CardView = findViewById(R.id.previous_button_fake)
 
         when (position) {
             0 -> {
@@ -156,6 +157,7 @@ class StartActivity : AppCompatActivity() {
                 nextButton.visibility = View.GONE
                 proceedButton.visibility = View.GONE
                 previousButton.visibility = View.GONE
+                previousButtonFake.visibility = View.VISIBLE
             }
             1 -> {
                 // Trang thứ hai
@@ -163,6 +165,7 @@ class StartActivity : AppCompatActivity() {
                 nextButton.visibility = View.VISIBLE
                 proceedButton.visibility = View.GONE
                 previousButton.visibility = View.VISIBLE
+                previousButtonFake.visibility = View.GONE
             }
             2 -> {
                 // Trang cuối cùng
@@ -170,6 +173,7 @@ class StartActivity : AppCompatActivity() {
                 nextButton.visibility = View.GONE
                 proceedButton.visibility = View.VISIBLE
                 previousButton.visibility = View.VISIBLE
+                previousButtonFake.visibility = View.GONE
             }
             else -> {
                 // Các trang khác (nếu có thêm)

@@ -21,5 +21,5 @@ data class Note(
     var reminderTime: Long? = null,
     var Finished: Boolean = false,
     var category: String? = null,
-    var imagePath: String? = null // Lưu đường dẫn tệp ảnh cục bộ
+    var imageBase64: String? = null // Lưu chuỗi Base64 của ảnh
 ) : Parcelable
